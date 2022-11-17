@@ -6,7 +6,6 @@ const galleryMurkupConteiner = createGalleryMarkup(galleryItems);
 
 galleryContainer.insertAdjacentHTML('beforeend', galleryMurkupConteiner);
 
-
 galleryContainer.addEventListener('click', (e) => {
   e.preventDefault();
   })
@@ -27,35 +26,64 @@ function createGalleryMarkup(galleryItems) {
 </div> `;
 
     }).join("");
+    
 }
 
+const galItem = galleryItems.map((item) => {
+  return item.preview;
+}).join("");
+
+console.log(galItem);
 console.log(galleryItems);
 
+document.querySelector('.gallery').onclick = () => {
 
-
-// document.querySelector('.gallery').onclick = () => {
-
-// 	basicLightbox.create(`
-//     <img
-//     class="gallery__image"
-//     src='https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg'
-//     data-source=""
-//     alt=""
-//   />
-// 	`).show()
-
-// }
-
-
-const instance = basicLightbox.create(`
-    <div class="modal">
+	const instance = basicLightbox.create(`
+  <div class="modal">
     <img
     class="gallery__image"
-    src="https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg"
+    src='https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg'
     data-source=""
     alt=""
   />
-    </div>
-`)
-
+  <a>Close</a>
+  </div>
+	`, {
+    onShow: (instance) => {
+        instance.element().querySelector('a').onclick = instance.close
+    }
+});
 instance.show()
+}
+
+
+// const instance = basicLightbox.create(`
+//     <div class="modal">
+//     <img
+//     class="gallery__image"
+//     src="https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg"
+//     data-source=""
+//     alt=""
+//   />
+//     </div>
+// `)
+
+// instance.show()
+
+// const instance = basicLightbox.create(`
+//     <div class="modal">
+//     <img
+//     class="gallery__image"
+//     src="https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg"
+//     data-source=""
+//     alt=""
+//    />
+//         <a>Close</a>
+//     </div>
+// `, {
+//     onShow: (instance) => {
+//         instance.element().querySelector('a').onclick = instance.close
+//     }
+// })
+
+// instance.show()
