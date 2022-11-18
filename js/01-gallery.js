@@ -4,11 +4,11 @@ import { galleryItems } from './gallery-items.js';
 const galleryContainer = document.querySelector('.gallery');
 const galleryMurkupConteiner = createGalleryMarkup(galleryItems);
 
-galleryContainer.insertAdjacentHTML('beforeend', galleryMurkupConteiner);
-
 galleryContainer.addEventListener('click', (e) => {
   e.preventDefault();
-  })
+})
+  
+galleryContainer.insertAdjacentHTML('beforeend', galleryMurkupConteiner);
 
 function createGalleryMarkup(galleryItems) {
 
@@ -24,66 +24,47 @@ function createGalleryMarkup(galleryItems) {
     />
   </a>
 </div> `;
-
-    }).join("");
-    
+    }).join(""); 
 }
 
 const galItem = galleryItems.map((item) => {
   return item.preview;
 }).join("");
 
-console.log(galItem);
 console.log(galleryItems);
 
-document.querySelector('.gallery').onclick = () => {
-
+document.querySelector('.gallery').onclick = (e) => {
+ 
+  if (!e.target.classList.contains('gallery__image')) {
+    return;
+}
 	const instance = basicLightbox.create(`
   <div class="modal">
     <img
     class="gallery__image"
-    src='https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg'
+    src="${e.target.dataset.source}"
     data-source=""
     alt=""
   />
   <a>Close</a>
   </div>
-	`, {
+	`,
+    {
     onShow: (instance) => {
-        instance.element().querySelector('a').onclick = instance.close
+        instance.element().querySelector('a').onclick = instance.close;
+        instance.element().querySelector('img').onclick = instance.close;
+      window.addEventListener('keyup', onEscClose)
+      },
+      
+    onClose: () => {
+      window.removeEventListener('keyup', onEscClose)
+    },
+  });
+  
+  function onEscClose(e) {
+    if (e.key === 'Escape') {
+      instance.close();
     }
-});
+  }
 instance.show()
 }
-
-
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//     <img
-//     class="gallery__image"
-//     src="https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg"
-//     data-source=""
-//     alt=""
-//   />
-//     </div>
-// `)
-
-// instance.show()
-
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//     <img
-//     class="gallery__image"
-//     src="https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg"
-//     data-source=""
-//     alt=""
-//    />
-//         <a>Close</a>
-//     </div>
-// `, {
-//     onShow: (instance) => {
-//         instance.element().querySelector('a').onclick = instance.close
-//     }
-// })
-
-// instance.show()
